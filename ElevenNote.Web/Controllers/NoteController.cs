@@ -22,7 +22,7 @@ namespace ElevenNote.Web.Controllers
             return View(model);
         }
 
-        //GET
+        
         // GET
         public ActionResult Create()
         {
@@ -33,17 +33,27 @@ namespace ElevenNote.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(NoteCreate model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
+            var service = CreateNoteService();
+
+            if (service.CreateNote(model))
+            {
+                ViewBag.SaveResult = "Your note was created.";
+                return RedirectToAction("index");
+            };
+
+            ModelState.AddModelError("", "Note could not be created.");
+
+            return View(model);
+
+        }
+
+        private NoteService CreateNoteService()
+        {
             var userId = Guid.Parse(User.Identity.GetUserId());
             var service = new NoteService(userId);
-
-            service.CreateNote(model);
-
-            return RedirectToAction("Index");
+            return service;
         }
     }
 }
