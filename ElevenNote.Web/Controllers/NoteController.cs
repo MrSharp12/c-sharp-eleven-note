@@ -39,8 +39,8 @@ namespace ElevenNote.Web.Controllers
 
             if (service.CreateNote(model))
             {
-                ViewBag.SaveResult = "Your note was created.";
-                return RedirectToAction("index");
+                TempData["SaveResult"] = "Your note was created.";
+                return RedirectToAction("Index");
             };
 
             ModelState.AddModelError("", "Note could not be created.");
