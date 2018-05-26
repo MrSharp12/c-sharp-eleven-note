@@ -15,7 +15,7 @@ namespace ElevenNote.Web.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Welcome to The Note App.";
 
             return View();
         }
